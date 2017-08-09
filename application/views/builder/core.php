@@ -11,11 +11,11 @@
 	<title>Leadmoksha - Editor</title>
 	<link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 	<link rel="icon" type="image/ico" href="assets/images/favicon.png" />
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
-	<link href="assets/css/font-awesome.min.css" rel="stylesheet">
-	<link href="assets/css/jquery.mCustomScrollbar.css" rel="stylesheet">
-	<link href="assets/css/style.css" rel="stylesheet">
-	<link href="assets/css/template/temp_style.css" rel="stylesheet">
+	<link href="assets/editor/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/editor/css/font-awesome.min.css" rel="stylesheet">
+	<link href="assets/editor/css/jquery.mCustomScrollbar.css" rel="stylesheet">
+	<link href="assets/editor/css/style.css" rel="stylesheet">
+	<link href="assets/editor/css/template/temp_style.css" rel="stylesheet">
 </head>
 <body>
 
