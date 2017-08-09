@@ -23,7 +23,7 @@
 <div class="ed_main_wrapper">
 	<div class="ed_header">
 		<div class="ed_logo">
-			<a href=""><img src="assets/images/logo.png" alt="" /> Leadmoksha</a>
+			<a href=""><img src="assets/editor/images/logo.png" alt="" /> Leadmoksha</a>
 		</div>
 		<div class="ed_header_right">
 			<a href="" class="ed_btn">Save & Preview</a>
@@ -330,10 +330,10 @@
 
 
 <!-- site jquery start -->
-<script src="assets/js/lib/jquery-3.2.1.min.js"></script>
-<script src="assets/js/lib/jquery-ui.js"></script>
-<script src="assets/js/plugin/custom_scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="assets/editor/js/lib/jquery-3.2.1.min.js"></script>
+<script src="assets/editor/js/lib/jquery-ui.js"></script>
+<script src="assets/editor/js/plugin/custom_scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="assets/editor/js/main.js"></script>
 <!-- site jquery end -->
 
 </body>
