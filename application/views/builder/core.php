@@ -8,7 +8,7 @@
 	<meta name="keywords" content="">
 	<meta name="author"  content=""/>
 	<meta name="MobileOptimized" content="320">
-	<title>Leadmoksha - Editor</title>
+	<title>Web page engine - Editor</title>
 	<link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 	<link rel="icon" type="image/ico" href="assets/images/favicon.png" />
 	<link href="assets/editor/css/bootstrap.min.css" rel="stylesheet">
@@ -19,14 +19,25 @@
 </head>
 <body>
 
+<!--alert message start-->
+<div class="ed_alert_wrapper ed_error">
+	<div class="ed_alert_inner">
+		<div class="icon"><i class="fa fa-exclamation" aria-hidden="true"></i></div>
+		<div class="message">
+			<p>Enter something nice!!</p>
+		</div>
+	</div>
+</div>
+<!--alert message end-->
+
 <!--main wrapper start-->
 <div class="ed_main_wrapper">
 	<div class="ed_header">
 		<div class="ed_logo">
-			<a href=""><img src="assets/editor/images/logo.png" alt="" /> Leadmoksha</a>
+			<a href=""><img src="assets/editor/images/logo.png" alt="" /> Web page engine</a>
 		</div>
 		<div class="ed_header_right">
-			<a href="" class="ed_btn">Save & Preview</a>
+			<a class="ed_btn ed_check_alert">Save & Preview</a>
 		</div>
 	</div>
 
@@ -159,9 +170,16 @@
 	<div class="ed_ele_popup_inner">
 		<div class="ed_ele_popup_header">
 			<h3>Insert Module</h3>
-			<div class="ed_ele_popup_close">
-				<span></span>
-				<span></span>
+			<div class="ed_ele_popup_action">
+				<div class="ed_ele_popup_action_btn ed_ele_popup_sidebar">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+				<div class="ed_ele_popup_action_btn ed_ele_popup_close">
+					<span></span>
+					<span></span>
+				</div>
 			</div>
 		</div>
 		<div class="ed_ele_popup_body ed_custom_scrollbar">
@@ -179,6 +197,20 @@
 				<!--Insert Module start-->
 				<div class="ed_ele_wrapper">
 					<ul>
+						<li><a href="">Accordion</a></li>
+						<li><a href="">Audio</a></li>
+						<li><a href="">Bar Counters</a></li>
+						<li><a href="">Blog</a></li>
+						<li><a href="">Blurb</a></li>
+						<li><a href="">Button</a></li>
+						<li><a href="">Call To Action</a></li>
+						<li><a href="">Circle Counter</a></li>
+						<li><a href="">Code</a></li>
+						<li><a href="">Comments</a></li>
+						<li><a href="">Contact Form</a></li>
+						<li><a href="">Countdown Timer</a></li>
+						<li><a href="">Divider</a></li>
+						<li><a href="">Email Optin</a></li>
 						<li><a href="">Accordion</a></li>
 						<li><a href="">Audio</a></li>
 						<li><a href="">Bar Counters</a></li>
