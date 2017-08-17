@@ -1,190 +1,84 @@
-/*
-Copyright (c) 2017 leadmoksha
-------------------------------------------------------------------
-[Master Javascript]
+(function(angular) {
+//var app = angular.module('main',['templates','ngRoute','ngSanitize']);
+var app = angular.module('main',['ngRoute','ngSanitize']);
 
-Project:	leadmoksha
-
--------------------------------------------------------------------*/
-
-(function ($) {
-	"use strict";
-    var targetEditButton;
-
-	var leadmoksha = {
-		initialised: false,
-		version: 1.0,
-		mobile: false,
-		init: function () {
-
-			if(!this.initialised) {
-				this.initialised = true;
-			} else {
-				return;
+app.config(function( $routeProvider , $locationProvider ){
+	$routeProvider.when('/builder',{
+		templateUrl : 'builder/getview/base.php',
+		controller : 'editorController'
+	})
+	.otherwise({
+		resolve : {
+			check : function($location){
+				console.log( $location.path() );
 			}
+		},
+		template : '404'
+	})
 
-			/*-------------- leadmoksha Functions Calling ---------------------------------------------------
-			------------------------------------------------------------------------------------------------*/
-			//this.navToggle();
-			this.Elem_dragable();
-			this.ed_Scrollbar();
-			this.AddElement();
-            this.RemoveSection();
-            this.DuplicateSection();
-		},
-		
-		/*-------------- leadmoksha Functions definition ---------------------------------------------------
-		---------------------------------------------------------------------------------------------------*/
-		Elem_dragable: function () {
-			$( ".sortable" ).sortable({ handle: ".emement_move" });	
-			$( ".sortable" ).disableSelection();
+	$locationProvider.html5Mode(true);
+});
 
-			/*popup dragable*/
-			$( ".ed_element_popup" ).draggable({ 
-				handle: ".ed_ele_popup_header",
-				containment: "body"
-			});	
-		},
-		Elem_dragable_destroy: function (){
-			$( ".sortable" ).sortable('destroy');
-		},
-		ed_Scrollbar: function () {
-			if($(".ed_custom_scrollbar").length){
-				$(".ed_custom_scrollbar").mCustomScrollbar({
-					scrollInertia:200,
-				});
-			}
-			if($(".ed_custom_scrollbar_x").length){
-				$(".ed_custom_scrollbar_x").mCustomScrollbar({
-					scrollInertia:200,
-					axis:"x"
-				});
-			}
-			
-		},
-		AddElement: function(){ 
-			$(document).on('click', '.ed_element_wrapper > .add_element' , function(){
-                var random_id = (new Date).getTime(); 
-                var targetParentDiv = $(this).closest('.ed_section');
-                $('.ed_section').removeAttr('id');
-                targetParentDiv.attr('id', random_id);    
-                $('.ed_ele_popup_body_inner ul.ed_grid_columns_layout li').removeClass('active'); 
-                $('.ed_ele_popup_body_inner ul.ed_grid_columns_layout').find('li[data-layout="'+targetParentDiv.attr('aection-type')+'"]').addClass('active');
-				$('.ed_element_popup').addClass('popup_open').attr('target-div' , random_id); 
-			});
-  
-			$(document).on('click', '.ed_ele_popup_close' , function(){
-				$('.ed_element_popup').removeClass('popup_open');
-			});
+app.service('getElements',function(){
+	this.elemArr = ["Accordion","Audio","Bar Counters","Blog","Code","Comments","Grid Layout"];
+});
 
-			// close popup by ESCAPE key pressed
-			$(document).keydown(function(e) {
-				if (e.keyCode == 27) {
-					$('.ed_element_popup').removeClass('popup_open');
-				}
-			});
-		},
-		AppendAddElementBtn: function(_this){
-			$(_this).closest('.ed_section').append($('.add_element:first')[0].outerHTML);
-		},
-		AppendGrid: function(){
-			$(document).on('click' , '.add_element ul.ed_grid_columns_layout > li' , function(){
-				var li_attr = $(this).attr('data-layout').split(',');
-                var append_date = '';
-                for(var i = 1; i <= li_attr.length; i++){
-                    append_date += '<div class="col-md-'+li_attr[i-1]+' sortable_div"><div class="ed_element_wrapper"><a class="add_element"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a></div></div>';
-                }
+app.controller('editorController',function($scope,$compile,getElements,$templateCache){
+	$scope.elementsList = getElements.elemArr;
+	localStorage['targetElement'] = "";
 
-                $(this).parent().parent().parent().parent().after('<div class="ed_section new_section_adding" aection-type="'+li_attr+'"><div class="container"><div class="row sortable_div_wrapper"><div id="sortable">'+append_date+'</div></div></div></div>');
-                leadmoksha.AppendEleOption();
-                leadmoksha.AppendAddElementBtn(this);
-                leadmoksha.Elem_dragable_destroy();
-                leadmoksha.Elem_dragable();
-
-			});
-		},
-        RemoveSection: function(){
-            $(document).on('click' , 'a.removeSection' , function(){
-                var conf = confirm('Are you sure to remove this section?');
-                if(conf == true){
-                    $(this).closest($(this).attr('data-target')).remove();
-                }
-            });
-        },
-        DuplicateSection: function(){
-            console.log('dup');
-            $(document).on('click' , 'a.duplicateSection' , function(){
-                var btnAttr = $(this).attr('data-target');
-                $(this).closest(btnAttr).after($(this).closest(btnAttr)[0].outerHTML);
-            });
-        } ,
-		EditGrid: function(){
-			$(document).on('click' , '.ed_ele_popup_body_inner > .ed_ele_wrapper > ul > li' , function(){
-				$('.ed_ele_popup_body_inner > .ed_ele_wrapper > ul > li').removeClass('active');	
-				$(this).addClass('active');	
-				var li_attr = $(this).attr('data-layout');
-				if(li_attr == '4_4'){
-					$('.sortable_div_wrapper > div').replaceWith('<div class="sortable"><div class="col-md-12 sortable_div"><div class="ed_element_wrapper"><a class="add_element"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a></div></div></div>');
-				}
-                leadmoksha.AppendEleOption();
-                leadmoksha.Elem_dragable_destroy(this);
-                leadmoksha.Elem_dragable();
-			});
-		},
-		AppendEleOption: function(_this){
-			// ed_element_wrapper
-            var targetSection = (typeof _this != 'undefined' && _this != '')?$(_this):$('.ed_element_wrapper'); 
-            targetSection.each(function(){
-                console.log($(this).text());    
-                if(!$(this).find('.ed_element_option').length){
-                    $(this).append($('div#elementOption').html());     
-                }
-            });
+	$scope.allElements = true;
+	$scope.insertTheElement = function(elementName){
+		$scope.elementsListView = false;
+		if( elementName == 'Grid Layout' ) {
+			$scope.gridLayoutView = false;
 		}
-		
-	};
+	}
 
-	// ready function
-	$(document).ready(function() {
-		leadmoksha.init();
-	});
-	
+	$scope.appendrows = function(gridLayout){
+		$scope.elemId = Math.floor(Math.random()*1000);
+		var targetElement = localStorage['targetElement'];
+		var id = '';
+		if( targetElement !== undefined && targetElement != '' ) {
+			elemObj = JSON.parse(targetElement);
+			id = '_'+elemObj.elem;
+		}
+		console.log(id);
+		var compiledeHTML = $compile("<div row-content type='"+gridLayout+"'></div>")($scope);
+      	$("#newElement"+id).append(compiledeHTML);
+      	$('#emptyContent').remove();
+	}
 
-	// Load Event
-	$(window).on('load', function() {
-		/* Trigger side menu scrollbar */
-		//leadmoksha.menuScrollbar();
+	$scope.showpopup = function(elem){
+		if( elem != '' ) {
+			var elemArr = elem.split('_');
+			var elemObj = {
+				'elem'	: elemArr[1]
+			};
+			localStorage['targetElement'] = JSON.stringify(elemObj);
+		}
+		$scope.showthepopup = true;
+		$scope.elementsListView = true;
+		$scope.gridLayoutView = true;
+	}
+	$scope.hidepopup = function(){
+		$scope.elementSearch = "";
+		$scope.showthepopup = false;
+		$scope.elementsListView = false;
+		$scope.gridLayoutView = false;
+	}
 
-		//$(".ml_loading_wrapper").delay(350).fadeOut("slow");
-		
-		var body_h = window.innerHeight;
-		$('body').css('min-height',body_h);
-		
-		// add class on body
-		setTimeout(function(){
-			$('body').addClass('lm_site_loaded');
-		},300);
+	$scope.savetemplate = function(){
+		alert("Saved");
+	}
+});
 
-		
-		leadmoksha.AppendAddElementBtn();
-		leadmoksha.AppendGrid();
-		leadmoksha.EditGrid();
-		leadmoksha.AppendEleOption('');
-		
-		
-	});
+app.directive('rowContent', function() {
+    return {
+    	templateUrl: function(elem ,attr){
+    		return 'builder/getviewss/'+attr.type+'.php'	
+    	}
+    };
+});
 
-	// Resize Event
-	$(window).on('resize', function () {
-		var body_h = window.innerHeight;
-		$('body').css('min-height',body_h);
-	});
-
-	// Scroll Event
-	$(window).on('scroll', function () {
-		
-	});
-	
-	
-
-})(jQuery);
+})(window.angular);
